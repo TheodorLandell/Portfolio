@@ -539,9 +539,10 @@ function applyStatic(){
     b.classList.toggle("active", b.dataset.lang===lang);
   });
   // CV link follows language
-  document.getElementById("cvLink").href = lang==="sv"
-    ? "assets/cv/Theodor-Landell-CV-SV.pdf"
-    : "assets/cv/Theodor-Landell-CV-EN.pdf";
+  const cvLink = document.getElementById("cvLink");
+  const cvFile = lang==="sv" ? "Theodor-Landell-CV-SV.pdf" : "Theodor-Landell-CV-EN.pdf";
+  cvLink.href = "assets/cv/" + cvFile;
+  cvLink.setAttribute("download", cvFile);
 }
 
 /* ============================ CARDS ============================ */
