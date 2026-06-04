@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Theodor Landell — Frontend & Fullstack</title>
+<meta name="description" content="Portfolio — Theodor Landell. Frontend- och fullstack-utvecklare. Datorseende, realtid och rena gränssnitt." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --paper:#F3F0E8;
+  --paper-2:#FBFAF5;
+  --card:#FCFBF6;
+  --ink:#15130E;
+  --ink-2:#4B473F;
+  --ink-3:#8C887D;
+  --line:#E3DDD0;
+  --line-2:#D4CDBC;
+  --accent:#AE5230;
+  --planks:#B0730C;
+  --dart:#D32B2B;
+  --jack:#1C7A4E;
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --sans:'Hanken Grotesk',system-ui,-apple-system,sans-serif;
+  --mono:'JetBrains Mono','SFMono-Regular',monospace;
+  --maxw:1180px;
+  --pad:clamp(20px,5vw,72px);
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+body.no-scroll{overflow:hidden}
+a{color:inherit;text-decoration:none}
+img,video{display:block;max-width:100%}
+::selection{background:var(--accent);color:#fff}
+
+/* grain overlay */
+.grain{
+  position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:multiply;
+}
+
+/* ---------- NAV ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:120;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px var(--pad);
+  transition:background .4s var(--ease),border-color .4s var(--ease),padding .4s var(--ease);
+  border-bottom:1px solid transparent;
+}
+.nav.scrolled{
+  background:color-mix(in srgb,var(--paper) 82%,transparent);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  padding-top:13px;padding-bottom:13px;
+}
+.brand{display:flex;align-items:center;gap:11px;font-family:var(--mono);font-size:13px;letter-spacing:.04em}
+.brand .mono-dot{width:9px;height:9px;border-radius:50%;background:var(--accent);display:inline-block}
+.brand b{font-weight:500;font-family:var(--mono)}
+.nav-right{display:flex;align-items:center;gap:clamp(14px,2.4vw,30px)}
+.nav-links{display:flex;gap:clamp(14px,2.4vw,30px);font-size:14px}
+.nav-links a{position:relative;color:var(--ink-2);transition:color .25s}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-4px;width:0;height:1.5px;background:var(--accent);transition:width .3s var(--ease)}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{width:100%}
+
+/* language toggle */
+.lang{display:inline-flex;border:1px solid var(--line-2);border-radius:100px;overflow:hidden;font-family:var(--mono);font-size:11px;letter-spacing:.06em}
+.lang-btn{padding:6px 12px;background:transparent;border:0;cursor:pointer;color:var(--ink-3);font:inherit;transition:background .25s,color .25s}
+.lang-btn.active{background:var(--ink);color:var(--paper-2)}
+
+/* ---------- HERO ---------- */
+.hero{
+  min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+  padding:140px var(--pad) 70px;position:relative;
+}
+.hero-eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:30px;display:flex;align-items:center;gap:14px}
+.hero-eyebrow .dots{display:inline-flex;gap:5px}
+.hero-eyebrow .dots i{width:7px;height:7px;border-radius:50%;display:inline-block}
+.hero h1{
+  font-family:var(--serif);font-weight:340;
+  font-size:clamp(46px,10.5vw,148px);line-height:.94;letter-spacing:-.02em;
+  font-optical-sizing:auto;
+}
+.hero h1 em{font-style:italic;font-weight:340}
+.hero .lead{
+  max-width:680px;margin-top:34px;
+  font-size:clamp(19px,2.3vw,27px);line-height:1.4;color:var(--ink);font-weight:400;
+  font-family:var(--serif);font-style:italic;font-weight:330;
+}
+.hero .scroll-cue{
+  position:absolute;bottom:34px;left:var(--pad);display:flex;align-items:center;gap:12px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
+}
+.scroll-cue .line{width:46px;height:1px;background:var(--ink-3);position:relative;overflow:hidden}
+.scroll-cue .line::after{content:"";position:absolute;inset:0;background:var(--accent);transform:translateX(-100%);animation:slide 2.4s var(--ease) infinite}
+@keyframes slide{0%{transform:translateX(-100%)}50%{transform:translateX(0)}100%{transform:translateX(100%)}}
+
+/* ---------- SECTION SHELL ---------- */
+.section{padding:clamp(70px,11vw,150px) var(--pad);max-width:var(--maxw);margin:0 auto}
+.sec-head{display:flex;align-items:baseline;gap:18px;margin-bottom:clamp(40px,6vw,70px)}
+.sec-num{font-family:var(--mono);font-size:13px;color:var(--accent);letter-spacing:.05em}
+.sec-title{font-family:var(--serif);font-weight:360;font-size:clamp(28px,4.4vw,52px);letter-spacing:-.015em;line-height:1}
+.sec-line{flex:1;height:1px;background:var(--line);align-self:center}
+
+/* ---------- ABOUT ---------- */
+.about-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(34px,6vw,80px);align-items:start}
+.about-body p{margin-bottom:22px;max-width:56ch;color:var(--ink-2);font-size:clamp(17px,1.4vw,19px)}
+.about-body p strong{color:var(--ink);font-weight:600}
+.about-side .side-label{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.skill-group{margin-bottom:26px}
+.skill-group h4{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:11px;letter-spacing:.01em}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--mono);font-size:12px;color:var(--ink-2);border:1px solid var(--line-2);border-radius:100px;padding:5px 12px;background:var(--paper-2);transition:border-color .25s,color .25s}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ---------- PROJECTS ---------- */
+.proj-list{display:flex;flex-direction:column;gap:clamp(16px,2vw,22px)}
+.proj-card{
+  position:relative;display:grid;grid-template-columns:120px 1fr 300px;align-items:center;gap:clamp(20px,3vw,46px);
+  background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:clamp(22px,3vw,34px);cursor:pointer;overflow:hidden;
+  transition:transform .55s var(--ease),box-shadow .55s var(--ease),border-color .55s var(--ease);
+  text-align:left;width:100%;font:inherit;color:inherit;
+}
+.proj-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--hue);transform:scaleY(0);transform-origin:top;transition:transform .5s var(--ease)}
+.proj-card:hover{transform:translateY(-4px);box-shadow:0 26px 60px -34px rgba(30,24,12,.5);border-color:var(--line-2)}
+.proj-card:hover::before{transform:scaleY(1)}
+.proj-index{font-family:var(--serif);font-size:clamp(40px,5vw,68px);font-weight:300;line-height:1;color:var(--hue);font-style:italic}
+.proj-mid .proj-meta{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px}
+.proj-mid h3{font-family:var(--serif);font-weight:400;font-size:clamp(25px,3vw,38px);letter-spacing:-.01em;line-height:1.05;margin-bottom:12px}
+.proj-mid p{color:var(--ink-2);font-size:15.5px;max-width:48ch;margin-bottom:16px}
+.proj-tech{display:flex;flex-wrap:wrap;gap:7px}
+.proj-tech span{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.proj-tech span:not(:last-child)::after{content:"·";margin-left:7px;color:var(--line-2)}
+.proj-thumb{position:relative;aspect-ratio:16/10;border-radius:12px;overflow:hidden;background:#0d0d10;border:1px solid var(--line)}
+.proj-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease);opacity:.95}
+.proj-card:hover .proj-thumb img{transform:scale(1.05)}
+.proj-open{position:absolute;top:clamp(22px,3vw,34px);right:clamp(22px,3vw,34px);font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--ink-3);display:flex;align-items:center;gap:7px;opacity:0;transform:translateX(-6px);transition:opacity .4s,transform .4s}
+.proj-card:hover .proj-open{opacity:1;transform:translateX(0);color:var(--hue)}
+
+/* ---------- CONTACT ---------- */
+.contact{background:var(--ink);color:var(--paper);padding:clamp(70px,10vw,130px) var(--pad)}
+.contact-inner{max-width:var(--maxw);margin:0 auto}
+.contact .sec-num{color:#d9866a}
+.contact .sec-line{background:rgba(243,240,232,.16)}
+.contact h2{font-family:var(--serif);font-weight:340;font-size:clamp(34px,6vw,76px);line-height:1.02;letter-spacing:-.02em;margin-bottom:26px}
+.contact h2 em{font-style:italic}
+.contact .blurb{color:rgba(243,240,232,.7);max-width:52ch;font-size:clamp(17px,1.6vw,20px);margin-bottom:48px}
+.contact-links{display:flex;flex-wrap:wrap;gap:14px}
+.clink{
+  display:inline-flex;align-items:center;gap:11px;padding:14px 22px;border:1px solid rgba(243,240,232,.2);border-radius:100px;
+  font-size:15px;transition:background .3s,border-color .3s,color .3s,transform .3s var(--ease);
+}
+.clink svg{width:17px;height:17px}
+.clink:hover{background:var(--paper);color:var(--ink);border-color:var(--paper);transform:translateY(-2px)}
+.clink.primary{background:#d9866a;border-color:#d9866a;color:#2a160e}
+.clink.primary:hover{background:#e89c81;border-color:#e89c81}
+
+.foot{border-top:1px solid rgba(243,240,232,.13);margin-top:clamp(54px,8vw,90px);padding-top:30px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;font-family:var(--mono);font-size:12px;color:rgba(243,240,232,.5);letter-spacing:.03em}
+
+/* ---------- PROJECT DETAIL OVERLAY ---------- */
+.detail{position:fixed;inset:0;z-index:200;background:var(--paper);overflow-y:auto;overflow-x:hidden;visibility:hidden;opacity:0;transition:opacity .5s var(--ease),visibility .5s}
+.detail.open{visibility:visible;opacity:1}
+.detail-head{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:16px var(--pad);transition:background .4s,border-color .4s}
+.detail-head.solid{background:color-mix(in srgb,var(--paper) 85%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.back-btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--ink);background:color-mix(in srgb,var(--paper) 70%,transparent);border:1px solid var(--line-2);border-radius:100px;padding:9px 16px;cursor:pointer;transition:background .25s,transform .25s}
+.back-btn:hover{background:var(--paper-2);transform:translateX(-3px)}
+.back-btn svg{width:14px;height:14px}
+
+.dhero{position:relative;height:100svh;overflow:hidden;background:#0c0c0e}
+.dhero video,.dhero .dhero-fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.dhero .dhero-fallback{background-size:cover;background-position:center;filter:saturate(1.02)}
+.dhero .scrim{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(8,8,10,.05) 0%,rgba(8,8,10,0) 32%,rgba(8,8,10,.18) 62%,rgba(8,8,10,.82) 100%)}
+.dhero-content{position:absolute;left:0;right:0;bottom:0;padding:0 var(--pad) clamp(40px,7vw,80px);color:#fff}
+.dhero-content .d-meta{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.78);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.dhero-content .d-meta .tag{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--hue)}
+.dhero-content h1{font-family:var(--serif);font-weight:360;font-size:clamp(42px,9vw,118px);line-height:.95;letter-spacing:-.02em;max-width:14ch}
+.dhero-content .d-tagline{font-family:var(--serif);font-style:italic;font-weight:330;font-size:clamp(18px,2.4vw,28px);color:rgba(255,255,255,.9);margin-top:20px;max-width:40ch}
+.dhero .d-scroll{position:absolute;bottom:24px;right:var(--pad);font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:rgba(255,255,255,.6);text-transform:uppercase;display:flex;align-items:center;gap:9px}
+.dhero .d-scroll .l{width:1px;height:34px;background:rgba(255,255,255,.4);position:relative;overflow:hidden}
+.dhero .d-scroll .l::after{content:"";position:absolute;inset:0;background:#fff;transform:translateY(-100%);animation:slidev 2.2s var(--ease) infinite}
+@keyframes slidev{0%{transform:translateY(-100%)}50%{transform:translateY(0)}100%{transform:translateY(100%)}}
+
+.dbody{position:relative;background:var(--paper);max-width:1080px;margin:0 auto;padding:clamp(60px,9vw,120px) var(--pad)}
+.dtop{display:grid;grid-template-columns:1fr 280px;gap:clamp(30px,5vw,70px);align-items:start;padding-bottom:clamp(50px,7vw,80px);border-bottom:1px solid var(--line)}
+.dtop .dlabel{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:24px}
+.dtop .overview p{font-size:clamp(18px,1.7vw,21px);color:var(--ink);margin-bottom:22px;max-width:60ch;line-height:1.55}
+.daside{position:sticky;top:90px}
+.daside .blk{margin-bottom:28px}
+.daside .blk .k{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:12px}
+.daside .blk .v{font-size:15px;color:var(--ink-2);line-height:1.5}
+.daside .chips .chip{font-size:11.5px}
+
+.dsection{padding-top:clamp(50px,7vw,80px)}
+.dsection .dlabel{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.dsection h2{font-family:var(--serif);font-weight:360;font-size:clamp(26px,3.6vw,42px);letter-spacing:-.015em;margin-bottom:30px;line-height:1.05}
+.how-step{display:grid;grid-template-columns:46px 1fr;gap:20px;margin-bottom:26px;max-width:64ch}
+.how-step .n{font-family:var(--mono);font-size:13px;color:var(--hue);padding-top:5px}
+.how-step p{color:var(--ink-2);font-size:clamp(16px,1.4vw,18px)}
+
+.figure{margin:clamp(34px,5vw,60px) 0}
+.figure .frame{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#0c0c0e;box-shadow:0 30px 70px -44px rgba(30,24,12,.55)}
+.figure img{width:100%}
+.figure figcaption{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-top:13px;letter-spacing:.01em;line-height:1.5;max-width:62ch}
+.fig-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2.4vw,26px);margin:clamp(34px,5vw,60px) 0}
+.fig-grid .figure{margin:0}
+@media(max-width:720px){.fig-grid{grid-template-columns:1fr}}
+
+.features{display:grid;grid-template-columns:repeat(2,1fr);gap:0 clamp(24px,4vw,50px);margin-top:8px}
+.feature{display:flex;gap:14px;align-items:flex-start;padding:18px 0;border-bottom:1px solid var(--line)}
+.feature .fdot{width:8px;height:8px;border-radius:50%;background:var(--hue);margin-top:8px;flex-shrink:0}
+.feature span{font-size:15.5px;color:var(--ink)}
+@media(max-width:680px){.features{grid-template-columns:1fr}}
+
+.dnext{margin-top:clamp(60px,8vw,100px);padding-top:40px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.dnext .ntxt{font-family:var(--serif);font-style:italic;font-size:clamp(20px,3vw,30px);color:var(--ink)}
+.dnext-btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--ink);border-radius:100px;padding:13px 22px;cursor:pointer;background:transparent;color:var(--ink);transition:background .3s,color .3s}
+.dnext-btn:hover{background:var(--ink);color:var(--paper)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+@media(max-width:900px){
+  .about-grid{grid-template-columns:1fr}
+  .proj-card{grid-template-columns:64px 1fr;grid-template-areas:"idx mid" "thumb thumb"}
+  .proj-index{grid-area:idx}.proj-mid{grid-area:mid}.proj-thumb{grid-area:thumb;margin-top:6px}
+  .proj-open{display:none}
+  .dtop{grid-template-columns:1fr}
+  .daside{position:static}
+  .nav-links{display:none}
+}
+@media(max-width:560px){
+  body{font-size:16px}
+  .proj-card{grid-template-columns:1fr;grid-template-areas:"mid" "thumb"}
+  .proj-index{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition-duration:.01ms!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="#top" class="brand"><span class="mono-dot"></span><b>THEODOR&nbsp;LANDELL</b></a>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#work" data-i18n="nav_work">Projekt</a>
+      <a href="#about" data-i18n="nav_about">Om mig</a>
+      <a href="#contact" data-i18n="nav_contact">Kontakt</a>
+    </div>
+    <div class="lang" role="group" aria-label="Language">
+      <button class="lang-btn active" data-lang="sv">SV</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="hero-eyebrow reveal">
+    <span class="dots"><i style="background:var(--planks)"></i><i style="background:var(--dart)"></i><i style="background:var(--jack)"></i></span>
+    <span data-i18n="hero_eyebrow">Frontend · Fullstack · AI</span>
+  </div>
+  <h1 class="reveal" data-i18n-html="hero_name">Theodor<br><em>Landell</em></h1>
+  <p class="lead reveal" data-i18n="hero_lead">Jag bygger saker som faktiskt fungerar — från idé till färdig produkt.</p>
+  <div class="scroll-cue"><span class="line"></span><span data-i18n="scroll">Scrolla</span></div>
+</header>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="sec-head reveal">
+    <span class="sec-num">01</span>
+    <h2 class="sec-title" data-i18n="about_title">Om mig</h2>
+    <span class="sec-line"></span>
+  </div>
+  <div class="about-grid">
+    <div class="about-body reveal">
+      <p data-i18n-html="about_p1"></p>
+      <p data-i18n-html="about_p2"></p>
+    </div>
+    <aside class="about-side reveal">
+      <div class="side-label" data-i18n="skills_label">Teknik</div>
+      <div class="skill-group">
+        <h4>Frontend</h4>
+        <div class="chips"><span class="chip">React</span><span class="chip">JavaScript</span><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">Tailwind</span><span class="chip">Vite</span></div>
+      </div>
+      <div class="skill-group">
+        <h4>Backend</h4>
+        <div class="chips"><span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">WebSocket</span></div>
+      </div>
+      <div class="skill-group">
+        <h4 data-i18n="skills_cv">AI / Datorseende</h4>
+        <div class="chips"><span class="chip">YOLOv8</span><span class="chip">OpenCV</span><span class="chip">MJPEG</span></div>
+      </div>
+      <div class="skill-group">
+        <h4 data-i18n="skills_tools">Verktyg</h4>
+        <div class="chips"><span class="chip">Git / GitHub</span><span class="chip">Claude Code</span><span class="chip">Claude API</span></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="section" id="work" style="padding-top:0">
+  <div class="sec-head reveal">
+    <span class="sec-num">02</span>
+    <h2 class="sec-title" data-i18n="work_title">Utvalda projekt</h2>
+    <span class="sec-line"></span>
+  </div>
+  <div class="proj-list" id="projList"></div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="sec-head reveal">
+      <span class="sec-num">03</span>
+      <h2 class="sec-title" style="font-family:var(--serif);color:var(--paper)" data-i18n="contact_kicker">Kontakt</h2>
+      <span class="sec-line"></span>
+    </div>
+    <h2 class="reveal" data-i18n-html="contact_head">Låt oss<br><em>bygga något.</em></h2>
+    <p class="blurb reveal" data-i18n="contact_blurb">Jag söker just nu roller som frontend-utvecklare. Hör gärna av dig.</p>
+    <div class="contact-links reveal">
+      <a class="clink primary" href="mailto:theodorlandell@hotmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        theodorlandell@hotmail.com
+      </a>
+      <a class="clink" id="ghLink" href="https://github.com/TheodorLandell" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.6 2 12.3c0 4.5 2.9 8.3 6.8 9.7.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1 .8-.2 1.7-.3 2.5-.3.8 0 1.7.1 2.5.3 1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.7c0 .3.2.6.7.5 3.9-1.4 6.8-5.2 6.8-9.7C22 6.6 17.5 2 12 2Z"/></svg>
+        GitHub
+      </a>
+      <a class="clink" id="liLink" href="https://www.linkedin.com/in/theodor-landell-4b972b310" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm6 0h3.8v1.7h.1c.5-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21h-4v-5.3c0-1.3 0-2.9-1.8-2.9s-2 1.4-2 2.8V21H9V9Z"/></svg>
+        LinkedIn
+      </a>
+      <a class="clink" id="cvLink" href="assets/cv/Theodor-Landell-CV-SV.pdf" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M5 21h14"/></svg>
+        <span data-i18n="cv">Ladda ner CV</span>
+      </a>
+    </div>
+    <div class="foot">
+      <span>© 2026 Theodor Landell</span>
+      <span data-i18n="foot_right">Stockholm, Sverige · Byggd med kod, inte mallar</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT DETAIL OVERLAY -->
+<div class="detail" id="detail" aria-hidden="true">
+  <div class="detail-head" id="detailHead">
+    <button class="back-btn" id="backBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+      <span data-i18n="back">Alla projekt</span>
+    </button>
+    <div class="lang" role="group" aria-label="Language">
+      <button class="lang-btn active" data-lang="sv">SV</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+    </div>
+  </div>
+  <div id="detailInner"></div>
+</div>
+
+<script>
+/* ============================ DATA ============================ */
+const I18N = {
+  sv:{
+    nav_work:"Projekt", nav_about:"Om mig", nav_contact:"Kontakt",
+    hero_eyebrow:"Frontend · Fullstack · AI",
+    hero_name:"Theodor<br><em>Landell</em>",
+    hero_lead:"Jag bygger saker som faktiskt fungerar — från idé till färdig produkt.",
+    scroll:"Scrolla",
+    about_title:"Om mig",
+    about_p1:"Nyutexaminerad <strong>gymnasieingenjör inom fullstack-utveckling och AI</strong> i Stockholm, 19 år. På kort tid har jag gått från nybörjare till att självständigt bygga produktionsfärdiga system — från rena, genomtänkta gränssnitt till backend och datorseende.",
+    about_p2:"Jag har precis avslutat min <strong>praktik på Videonet</strong> och är <strong>AI-projektansvarig på Alamanco</strong>. Det som ger mig mest energi är att gå från en idé till något som faktiskt fungerar. Jag är nyfiken, envis och håller mig lugn under press — något mina år som fotbollsdomare förstärkt.",
+    skills_label:"Teknik", skills_cv:"AI / Datorseende", skills_tools:"Verktyg",
+    work_title:"Utvalda projekt",
+    contact_kicker:"Kontakt",
+    contact_head:"Låt oss<br><em>bygga något.</em>",
+    contact_blurb:"Jag söker just nu roller som frontend-utvecklare. Hör gärna av dig så pratar vi.",
+    cv:"Ladda ner CV",
+    foot_right:"Stockholm, Sverige · Byggd med kod, inte mallar",
+    back:"Alla projekt",
+    overview_label:"Översikt", how_label:"Så fungerar det", features_label:"Funktioner",
+    role_k:"Roll", year_k:"År", stack_k:"Teknik",
+    next_txt:"Vill du se mer?", next_btn:"Tillbaka till projekten", d_scroll:"Scrolla"
+  },
+  en:{
+    nav_work:"Work", nav_about:"About", nav_contact:"Contact",
+    hero_eyebrow:"Frontend · Fullstack · AI",
+    hero_name:"Theodor<br><em>Landell</em>",
+    hero_lead:"I build things that actually work — from idea to finished product.",
+    scroll:"Scroll",
+    about_title:"About",
+    about_p1:"A newly graduated <strong>fullstack and AI developer</strong> (Swedish TE4 engineering diploma), based in Stockholm, 19. In a short time I've gone from beginner to independently building production-ready systems — from clean, considered interfaces to backend and computer vision.",
+    about_p2:"I've just finished my <strong>internship at Videonet</strong> and I'm <strong>AI project lead at Alamanco</strong>. What gives me the most energy is turning an idea into something that actually works. I'm curious, stubborn and calm under pressure — something my years as a football referee have reinforced.",
+    skills_label:"Stack", skills_cv:"AI / Computer Vision", skills_tools:"Tools",
+    work_title:"Selected work",
+    contact_kicker:"Contact",
+    contact_head:"Let's<br><em>build something.</em>",
+    contact_blurb:"I'm currently looking for frontend developer roles. Feel free to reach out.",
+    cv:"Download CV",
+    foot_right:"Stockholm, Sweden · Built with code, not templates",
+    back:"All work",
+    overview_label:"Overview", how_label:"How it works", features_label:"Features",
+    role_k:"Role", year_k:"Year", stack_k:"Stack",
+    next_txt:"Want to see more?", next_btn:"Back to projects", d_scroll:"Scroll"
+  }
+};
+
+const PROJECTS = [
+  {
+    id:"planks", hue:"#B0730C",
+    video:"assets/videos/planks.mp4", poster:"assets/img/planks-control.png",
+    thumb:"assets/img/planks-control.png",
+    title:"Träplanksanalys",
+    titleEn:"Plank Inspection",
+    year:"2026",
+    meta:{sv:"Videonet · Praktik 2026", en:"Videonet · Internship 2026"},
+    tagline:{sv:"Kvalitetskontroll av träplankor med datorseende.", en:"Quality control of wooden planks with computer vision."},
+    card:{sv:"Automatiserat inspektionssystem som hittar sprickor och hörndefekter i träplankor med datorseende — i realtid.", en:"Automated inspection system that detects cracks and corner defects in wooden planks using computer vision — in real time."},
+    tech:["Python","FastAPI","YOLOv8","OpenCV","MJPEG"],
+    role:{sv:"Praktikant · ensam utvecklare", en:"Intern · sole developer"},
+    overview:{
+      sv:["Under min praktik på Videonet byggde jag ett komplett inspektionssystem för kvalitetskontroll av träplankor. En YOLOv8-modell hittar sprickor och hörndefekter direkt i ett kamera- eller bildflöde och visar resultatet i realtid i ett webbgränssnitt.","Jag tog projektet hela vägen — från datainsamling och modellträning till backend och ett konfigurerbart gränssnitt som faktiskt går att använda i en produktionsmiljö."],
+      en:["During my internship at Videonet I built a complete inspection system for quality control of wooden planks. A YOLOv8 model detects cracks and corner defects straight from a camera or image feed and shows the result in real time in a web interface.","I took the project the whole way — from data collection and model training to the backend and a configurable interface that can actually be used in a production setting."]
+    },
+    how:{
+      sv:["Bilder strömmas till webbappen via MJPEG, så att operatören ser exakt vad kameran ser — bildruta för bildruta.","YOLOv8-modellen kör inferens på varje bild och ritar ut boxar för plankor, sprickor och hörn. En plank som inte når kvalitetskraven flaggas direkt som DEFEKT.","Allt är justerbart i farten: confidence-trösklar, hörndetektering, marginaler och klippning. Inställningar kan sparas som presets för olika uppställningar.","Systemet stödjer både en bildmapp och en live RTSP-industrikamera, med live-statistik vid sidan av flödet."],
+      en:["Frames are streamed to the web app over MJPEG, so the operator sees exactly what the camera sees — frame by frame.","The YOLOv8 model runs inference on every frame and draws boxes for planks, cracks and corners. A plank that fails the quality bar is flagged instantly as DEFECTIVE.","Everything is adjustable on the fly: confidence thresholds, corner detection, margins and cropping. Settings can be saved as presets for different setups.","The system supports both an image folder and a live RTSP industrial camera, with live statistics alongside the feed."]
+    },
+    features:{
+      sv:["Sprick- och hörndetektion (YOLOv8)","Realtidsstreaming (MJPEG)","Justerbara trösklar & presets","Stöd för RTSP-industrikamera","Live-statistik","Filbaserad analys"],
+      en:["Crack & corner detection (YOLOv8)","Real-time streaming (MJPEG)","Adjustable thresholds & presets","RTSP industrial camera support","Live statistics","File-based analysis"]
+    },
+    gallery:[
+      {src:"assets/img/planks-control.png", sv:"Kontrollpanelen — detektion, trösklar, hörndetektering och presets på ett ställe.", en:"The control panel — detection, thresholds, corner detection and presets in one place."}
+    ]
+  },
+  {
+    id:"dartvision", hue:"#D32B2B",
+    video:"assets/videos/dartvision.mp4", poster:"assets/img/dart-throw-for-bull.png",
+    thumb:"assets/img/dart-calibration-1.png",
+    title:"DartVision",
+    titleEn:"DartVision",
+    year:"2025–26",
+    meta:{sv:"Egen produkt · Full-stack", en:"Personal product · Full-stack"},
+    tagline:{sv:"Automatisk poängräkning för dart med två kameror och YOLO.", en:"Automatic dart scoring with dual cameras and YOLO."},
+    card:{sv:"Automatiskt poängräkningssystem för dart. Två kameror + YOLO läser av pilarna och räknar poäng live — med matcher, turneringar, träningslägen och statistik.", en:"Automatic dart scoring system. Dual cameras + YOLO read the darts and score live — with matches, tournaments, training modes and statistics."},
+    tech:["React 19","Vite","Tailwind","FastAPI","Python","YOLO","WebSocket"],
+    role:{sv:"Full-stack · frontend, backend & realtid", en:"Full-stack · frontend, backend & real-time"},
+    overview:{
+      sv:["DartVision är ett automatiskt poängräkningssystem för dart. Två kameror filmar tavlan och en YOLO-modell läser av var varje pil landar — poängen räknas helt automatiskt, i realtid, utan att man rör en penna.","Det är en komplett produkt med inloggning, flera spellägen, turneringar, träningslägen och sparad statistik. Frontend är byggd i React med Vite och Tailwind och pratar med en FastAPI-backend över WebSocket för live-uppdateringar."],
+      en:["DartVision is an automatic dart scoring system. Two cameras film the board and a YOLO model reads where each dart lands — the score is counted fully automatically, in real time, without touching a pen.","It's a complete product with login, multiple game modes, tournaments, training modes and saved stats. The frontend is built in React with Vite and Tailwind, talking to a FastAPI backend over WebSocket for live updates."]
+    },
+    how:{
+      sv:["Innan en match kalibreras tavlan: man klickar ut referenspunkter (bull, dubblar, tripplar) så att systemet kan översätta en träff i kamerabilden till rätt fält på tavlan.","Två kameror ger djup och täcker pilar som annars skulle skymmas. YOLO detekterar pilspetsarna och en live-board ritar upp träffarna direkt.","Match-läget kör klassisk 501/301 med legs, bottar med justerbar svårighetsgrad och 'throw for bull' som avgör vem som börjar. Det finns även turneringar, 121-checkout och Around the Clock för precisionsträning.","All data sparas per spelare: matchhistorik, snitt, bästa checkout och en heatmap som visar exakt var pilarna brukar landa."],
+      en:["Before a match the board is calibrated: you click reference points (bull, doubles, triples) so the system can translate a hit in the camera image to the right segment on the board.","Two cameras give depth and cover darts that would otherwise be hidden. YOLO detects the dart tips and a live board draws the hits instantly.","Match mode runs classic 501/301 with legs, difficulty-scaled bots and a 'throw for bull' to decide who starts. There are also tournaments, a 121 checkout challenge and Around the Clock for precision training.","All data is saved per player: match history, average, best checkout and a heatmap showing exactly where the darts tend to land."]
+    },
+    features:{
+      sv:["Kamerakalibrering (41 punkter)","Två kameror + YOLO-detektion","Live-board i realtid (WebSocket)","Match, turnering, 121 & Around the Clock","Bottar med svårighetsgrad","Heatmap & spelarstatistik","Konton & inloggning"],
+      en:["Camera calibration (41 points)","Dual cameras + YOLO detection","Real-time live board (WebSocket)","Match, tournament, 121 & Around the Clock","Difficulty-scaled bots","Heatmap & player stats","Accounts & login"]
+    },
+    gallery:[
+      {src:"assets/img/dart-lobby.png", sv:"Startmenyn med spellägen: Match, Turnering, 121 och Around the Clock.", en:"The lobby with game modes: Match, Tournament, 121 and Around the Clock."},
+      {src:"assets/img/dart-calibration-1.png", sv:"Kalibrering: man klickar ut referenspunkter så att kameran vet var på tavlan pilen sitter.", en:"Calibration: you click reference points so the camera knows where on the board a dart lands.", half:true},
+      {src:"assets/img/dart-calibration-2.png", sv:"41 punkter (bull, dubblar, tripplar) mappas mot kamerabilden.", en:"41 points (bull, doubles, triples) mapped against the camera image.", half:true},
+      {src:"assets/img/dart-throw-for-bull.png", sv:"Throw for bull med två kameror — närmast bull börjar matchen.", en:"Throw for bull with dual cameras — closest to bull starts the match."},
+      {src:"assets/img/dart-match-setup.png", sv:"Matchuppställning: spelare, bottar, startpoäng och format.", en:"Match setup: players, bots, starting score and format.", half:true},
+      {src:"assets/img/dart-atc.png", sv:"Around the Clock — träningsläge med live-träffprocent.", en:"Around the Clock — a training mode with live hit accuracy.", half:true},
+      {src:"assets/img/dart-heatmap.png", sv:"Heatmap över var pilarna landar, byggd från sparad statistik.", en:"Heatmap of where darts land, built from saved stats.", half:true},
+      {src:"assets/img/dart-profile.png", sv:"Spelarprofil med matchhistorik och statistik.", en:"Player profile with match history and statistics.", half:true}
+    ]
+  },
+  {
+    id:"blackjack", hue:"#1C7A4E",
+    video:"assets/videos/blackjack.mp4", poster:"assets/img/blackjack-table.png",
+    thumb:"assets/img/blackjack-table.png",
+    title:"Blackjack",
+    titleEn:"Blackjack",
+    year:"2026",
+    meta:{sv:"Gymnasiearbete", en:"Final thesis project"},
+    tagline:{sv:"Blackjack som känner igen riktiga spelkort via kameran.", en:"Blackjack that recognises real playing cards through the camera."},
+    card:{sv:"Blackjack-app som känner igen riktiga spelkort via kameran med YOLOv8 — räknar handvärde och kör ett komplett spel med giv, insatser och saldo.", en:"A blackjack app that recognises real playing cards via the camera with YOLOv8 — computes the hand value and runs a full game with deals, bets and a balance."},
+    tech:["YOLOv8","OpenCV","Python","JavaScript"],
+    role:{sv:"Ensam utvecklare · modell, logik & gränssnitt", en:"Sole developer · model, logic & interface"},
+    overview:{
+      sv:["Blackjack är mitt gymnasiearbete: en webbapp som spelar blackjack mot en riktig kortlek. En kamera filmar bordet och en YOLOv8-modell känner igen varje kort — valör och färg — och appen räknar ut handvärdet automatiskt.","Utifrån det körs ett komplett spel: giv, spelarens tur, dealer-logik, insatser med marker och saldo. Allt poängräknande som annars sker i huvudet sköts av datorseendet."],
+      en:["Blackjack is my final thesis project: a web app that plays blackjack against a real deck. A camera films the table and a YOLOv8 model recognises every card — rank and suit — and the app computes the hand value automatically.","From there it runs a complete game: the deal, the player's turn, dealer logic, betting with chips and a balance. All the counting you'd normally do in your head is handled by the computer vision."]
+    },
+    how:{
+      sv:["Kameran (uppe till vänster i appen) detekterar korten på bordet i realtid med YOLOv8 och läser av både valör och färg.","Appen summerar handen automatiskt — inklusive ess som 1 eller 11 — och visar både spelarens och dealerns värde.","Därifrån fungerar det som ett vanligt blackjack-bord: lägg en insats med markerna och välj Hit, Stand eller Double down. Saldot uppdateras efter varje rond."],
+      en:["The camera (top left in the app) detects the cards on the table in real time with YOLOv8, reading both rank and suit.","The app sums the hand automatically — including aces as 1 or 11 — and shows both the player's and the dealer's value.","From there it works like a normal blackjack table: place a bet with the chips and choose Hit, Stand or Double down. The balance updates after every round."]
+    },
+    features:{
+      sv:["Kortigenkänning med YOLOv8","Automatisk handuträkning","Komplett blackjack-logik (dealer, dubbling)","Insatser, marker & saldo","Realtidskamera"],
+      en:["Card recognition with YOLOv8","Automatic hand calculation","Full blackjack logic (dealer, doubling)","Betting, chips & balance","Real-time camera"]
+    },
+    gallery:[
+      {src:"assets/img/blackjack-table.png", sv:"Spelbordet — kameran (uppe till vänster) läser av korten och appen räknar handvärdet automatiskt.", en:"The table — the camera (top left) reads the cards and the app computes the hand value automatically."}
+    ]
+  }
+];
+
+/* ============================ STATE ============================ */
+let lang = "sv";
+let openId = null;
+
+/* ============================ I18N ============================ */
+function t(key){ return (I18N[lang] && I18N[lang][key]) || key; }
+
+function applyStatic(){
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    el.textContent = t(el.getAttribute("data-i18n"));
+  });
+  document.querySelectorAll("[data-i18n-html]").forEach(el=>{
+    el.innerHTML = t(el.getAttribute("data-i18n-html"));
+  });
+  document.querySelectorAll(".lang-btn").forEach(b=>{
+    b.classList.toggle("active", b.dataset.lang===lang);
+  });
+  // CV link follows language
+  document.getElementById("cvLink").href = lang==="sv"
+    ? "assets/cv/Theodor-Landell-CV-SV.pdf"
+    : "assets/cv/Theodor-Landell-CV-EN.pdf";
+}
+
+/* ============================ CARDS ============================ */
+function renderCards(){
+  const wrap = document.getElementById("projList");
+  wrap.innerHTML = "";
+  PROJECTS.forEach((p,i)=>{
+    const title = lang==="sv" ? p.title : p.titleEn;
+    const card = document.createElement("button");
+    card.className = "proj-card reveal";
+    card.style.setProperty("--hue", p.hue);
+    card.setAttribute("aria-label", title);
+    card.innerHTML = `
+      <div class="proj-index">${String(i+1).padStart(2,"0")}</div>
+      <div class="proj-mid">
+        <div class="proj-meta">${p.meta[lang]}</div>
+        <h3>${title}</h3>
+        <p>${p.card[lang]}</p>
+        <div class="proj-tech">${p.tech.map(x=>`<span>${x}</span>`).join("")}</div>
+      </div>
+      <div class="proj-thumb"><img src="${p.thumb}" alt="${title}" loading="lazy"></div>
+      <div class="proj-open">${lang==="sv"?"Öppna":"Open"} →</div>`;
+    card.addEventListener("click", ()=>openProject(p.id));
+    wrap.appendChild(card);
+  });
+  observeReveals();
+}
+
+/* ============================ DETAIL ============================ */
+function openProject(id){
+  const p = PROJECTS.find(x=>x.id===id);
+  if(!p) return;
+  openId = id;
+  const title = lang==="sv" ? p.title : p.titleEn;
+  const inner = document.getElementById("detailInner");
+
+  const galleryHtml = renderGallery(p.gallery);
+  const howHtml = p.how[lang].map((s,i)=>`
+    <div class="how-step"><div class="n">${String(i+1).padStart(2,"0")}</div><p>${s}</p></div>`).join("");
+  const featHtml = p.features[lang].map(f=>`
+    <div class="feature"><span class="fdot"></span><span>${f}</span></div>`).join("");
+  const overviewHtml = p.overview[lang].map(s=>`<p>${s}</p>`).join("");
+
+  inner.innerHTML = `
+    <section class="dhero" style="--hue:${p.hue}">
+      <div class="dhero-fallback" style="background-image:url('${p.poster}')"></div>
+      <video id="dvideo" autoplay muted loop playsinline preload="auto" poster="${p.poster}">
+        <source src="${p.video}" type="video/mp4">
+      </video>
+      <div class="scrim"></div>
+      <div class="dhero-content">
+        <div class="d-meta"><span class="tag"></span>${p.meta[lang]}</div>
+        <h1>${title}</h1>
+        <p class="d-tagline">${p.tagline[lang]}</p>
+      </div>
+      <div class="d-scroll"><span>${t("d_scroll")}</span><span class="l"></span></div>
+    </section>
+    <div class="dbody" style="--hue:${p.hue}">
+      <div class="dtop">
+        <div class="overview">
+          <div class="dlabel">${t("overview_label")}</div>
+          ${overviewHtml}
+        </div>
+        <aside class="daside">
+          <div class="blk"><div class="k">${t("role_k")}</div><div class="v">${p.role[lang]}</div></div>
+          <div class="blk"><div class="k">${t("year_k")}</div><div class="v">${p.year}</div></div>
+          <div class="blk"><div class="k">${t("stack_k")}</div><div class="chips">${p.tech.map(x=>`<span class="chip">${x}</span>`).join("")}</div></div>
+        </aside>
+      </div>
+      <div class="dsection">
+        <div class="dlabel">${t("how_label")}</div>
+        <h2>${lang==="sv"?"Under huven":"Under the hood"}</h2>
+        ${howHtml}
+        ${galleryHtml}
+      </div>
+      <div class="dsection">
+        <div class="dlabel">${t("features_label")}</div>
+        <h2>${lang==="sv"?"Vad det gör":"What it does"}</h2>
+        <div class="features">${featHtml}</div>
+      </div>
+      <div class="dnext">
+        <span class="ntxt">${t("next_txt")}</span>
+        <button class="dnext-btn" onclick="closeProject()">${t("next_btn")} →</button>
+      </div>
+    </div>`;
+
+  const d = document.getElementById("detail");
+  d.classList.add("open");
+  d.setAttribute("aria-hidden","false");
+  d.scrollTop = 0;
+  document.body.classList.add("no-scroll");
+  const v = document.getElementById("dvideo");
+  if(v){ v.play().catch(()=>{}); }
+  // re-bind detail scroll for header solidity
+  d.onscroll = ()=>{ document.getElementById("detailHead").classList.toggle("solid", d.scrollTop>40); };
+  observeReveals();
+}
+
+function renderGallery(items){
+  let html = "", buffer = [];
+  const flush = ()=>{
+    if(buffer.length){
+      html += `<div class="fig-grid">${buffer.join("")}</div>`;
+      buffer = [];
+    }
+  };
+  const fig = (it)=>`<figure class="figure"><div class="frame"><img src="${it.src}" alt="" loading="lazy"></div><figcaption>${it[lang]}</figcaption></figure>`;
+  items.forEach(it=>{
+    if(it.half){ buffer.push(fig(it)); if(buffer.length===2) flush(); }
+    else { flush(); html += fig(it); }
+  });
+  flush();
+  return html;
+}
+
+function closeProject(){
+  const d = document.getElementById("detail");
+  const v = document.getElementById("dvideo");
+  if(v) v.pause();
+  d.classList.remove("open");
+  d.setAttribute("aria-hidden","true");
+  document.body.classList.remove("no-scroll");
+  openId = null;
+  setTimeout(()=>{ document.getElementById("detailInner").innerHTML=""; }, 480);
+}
+
+/* ============================ LANGUAGE ============================ */
+function setLang(l){
+  if(l===lang) return;
+  lang = l;
+  applyStatic();
+  renderCards();
+  if(openId){ openProject(openId); } // re-render open detail in new language
+}
+
+/* ============================ REVEAL ============================ */
+let io;
+function observeReveals(){
+  if(!io){
+    io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} });
+    },{threshold:.12, rootMargin:"0px 0px -8% 0px"});
+  }
+  document.querySelectorAll(".reveal:not(.in)").forEach(el=>io.observe(el));
+}
+
+/* ============================ INIT ============================ */
+document.addEventListener("DOMContentLoaded", ()=>{
+  applyStatic();
+  renderCards();
+  observeReveals();
+
+  // nav solidity
+  const nav = document.getElementById("nav");
+  const onScroll = ()=> nav.classList.toggle("scrolled", window.scrollY>30);
+  window.addEventListener("scroll", onScroll, {passive:true});
+  onScroll();
+
+  // language buttons (delegated)
+  document.querySelectorAll(".lang-btn").forEach(b=>{
+    b.addEventListener("click", ()=>setLang(b.dataset.lang));
+  });
+
+  // back + escape
+  document.getElementById("backBtn").addEventListener("click", closeProject);
+  document.addEventListener("keydown", e=>{ if(e.key==="Escape" && openId) closeProject(); });
+});
+</script>
+</body>
+</html>
